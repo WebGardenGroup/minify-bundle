@@ -1,0 +1,68 @@
+name: Run PHPUnit tests
+
+on:
+    workflow_call:
+        inputs:
+            php-version-matrix:
+                description: PHP versions used in the matrix
+                required: false
+                default: '["8.1", "8.2", "8.3"]'
+                type: string
+            php-version-lowest:
+                description: PHP version for testing lowest deps
+                required: false
+                default: 8.1.0
+                type: string
+            runs-on:
+                description: The "runs-on" platform config
+                required: false
+                default: 'ubuntu-latest'
+                type: string
+            php-extensions:
+                description: PHP extensions to install
+                required: false
+                default: ''
+                type: string
+
+jobs:
+    phpunit:
+        name: PHP ${{ matrix.php-version }}, ${{ matrix.dependency-versions }} deps, ${{ matrix.composer-options }}
+        runs-on: ${{ inputs.runs-on }}
+
+        strategy:
+            fail-fast: false
+            matrix:
+                # normal, highest, non-dev installs
+                php-version: ${{ fromJSON(inputs.php-version-matrix) }}
+                dependency-versions: [highest]
+                composer-options: [--prefer-stable]
+                include:
+                    # testing lowest PHP version with the lowest dependencies
+                    - php-version: ${{ inputs.php-version-lowest }}
+                      dependency-versions: lowest
+                      composer-options: --prefer-lowest
+
+                    # testing dev versions with the highest PHP
+                    - php-version: 8.3
+                      dependency-versions: highest
+                      composer-options: '' # allow dev deps
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  coverage: none
+                  php-version: ${{ matrix.php-version }}
+                  extensions: ${{ inputs.php-extensions }}
+
+            - name: Install Composer dependencies
+              uses: ramsey/composer-install@v2
+              with:
+                  dependency-versions: ${{ matrix.dependency-versions }}
+                  composer-options: ${{ matrix.composer-options }} --prefer-dist
+
+            - name: Tests
+              run: vendor/bin/simple-phpunit

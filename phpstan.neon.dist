@@ -1,0 +1,9 @@
+parameters:
+    level: 5
+    paths:
+        - src
+    ignoreErrors:
+        -
+            message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeParentInterface\\:\\:arrayNode\\(\\)\\.$#"
+            count: 1
+            path: src/DependencyInjection/MinifyExtension.php

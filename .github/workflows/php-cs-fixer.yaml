@@ -1,0 +1,27 @@
+name: Check PHP Coding Standards with PHP-CS-Fixer
+
+on:
+    workflow_call:
+        inputs:
+            php:
+                description: PHP Version to use
+                default: 8.2
+                required: false
+                type: string
+
+jobs:
+    php-cs-fixer:
+        name: PHP CS Fixer
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ inputs.php }}
+                  tools: php-cs-fixer
+
+            - name: Run PHP-CS-Fixer
+              run: php-cs-fixer fix --dry-run --diff

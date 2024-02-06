@@ -1,0 +1,38 @@
+{
+    "name": "wgg/minify-bundle",
+    "description": "Minify support for Symfony and AssetMapper",
+    "license": "MIT",
+    "type": "library",
+    "keywords": ["asset-mapper", "minify"],
+    "authors": [
+        {
+            "name": "Balázs Fraller"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "ext-zip": "*",
+        "symfony/asset-mapper": "^6.4|^7.0",
+        "symfony/console": "^6.4|^7.0",
+        "symfony/finder": "^6.4|^7.0",
+        "symfony/http-client": "^6.4|^7.0",
+        "symfony/process": "^6.4|^7.0"
+    },
+    "require-dev": {
+        "symfony/filesystem": "^6.4|^7.0",
+        "symfony/framework-bundle": "^6.4|^7.0",
+        "symfony/phpunit-bridge": "^6.4|^7.0",
+        "phpstan/phpstan": "^1.0"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Wgg\\MinifyBundle\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Wgg\\MinifyBundle\\Tests\\": "tests/"
+        }
+    }
+}

@@ -1,0 +1,29 @@
+name: Check with PHPStan static analysis tool
+
+on:
+    workflow_call:
+        inputs:
+            php:
+                description: PHP Version to use
+                default: 8.2
+                required: false
+                type: string
+
+jobs:
+    phpstan:
+        name: PHPStan
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ inputs.php }}
+
+            - name: Install Composer dependencies
+              run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+            - name: Run PHPStan
+              run: vendor/bin/phpstan analyse

@@ -1,0 +1,32 @@
+name: Continuous Integration
+
+on:
+    pull_request: ~
+    push:
+        branches: ['main']
+    schedule:
+        - cron: '0 */12 * * *'
+
+jobs:
+    test:
+        uses: ./.github/workflows/phpunit.yaml
+        with:
+            php-version-matrix: '["8.1", "8.2", "8.3"]'
+            php-version-lowest: '8.1'
+
+    test_windows:
+        uses: ./.github/workflows/phpunit.yaml
+        with:
+            php-version-matrix: '["8.2"]'
+            php-version-lowest: '8.2'
+            php-extensions: 'zip'
+            runs-on: windows-latest
+
+    composer-validate:
+        uses: ./.github/workflows/composer-validate.yaml
+
+    php-cs-fixer:
+        uses: ./.github/workflows/php-cs-fixer.yaml
+
+    phpstan:
+        uses: ./.github/workflows/phpstan.yaml

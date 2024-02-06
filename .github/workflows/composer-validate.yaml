@@ -1,0 +1,27 @@
+name: Validate composer.json
+
+on:
+    workflow_call:
+        inputs:
+            php:
+                description: PHP Version to use
+                default: 8.2
+                required: false
+                type: string
+
+jobs:
+    composer-validate:
+        name: Validate composer.json
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ inputs.php }}
+                  coverage: none
+
+            - name: Validate
+              run: composer validate --strict
