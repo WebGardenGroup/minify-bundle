@@ -69,7 +69,7 @@ class MinifyExtension extends Extension implements ConfigurationInterface
                     ->scalarProtoType()
                         ->example('%kernel.project_dir%/assets/do-not-minify/**')
                         ->end()
-                    ->defaultValue(['%kernel.project_dir%.'.DIRECTORY_SEPARATOR.'assets/vendor/**'])
+                    ->defaultValue(['%kernel.project_dir%'.DIRECTORY_SEPARATOR.'assets/vendor/**'])
                 ->end()
                 ->booleanNode('convert_comments')
                     ->info('Convert important comments (/*! ... */) back to normal')
