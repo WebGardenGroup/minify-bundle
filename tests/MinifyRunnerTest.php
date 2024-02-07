@@ -32,14 +32,14 @@ class MinifyRunnerTest extends TestCase
 
     public function testIntegrationWithDefaultOptions(): void
     {
-        $builder = new MinifyRunner(
+        $runner = new MinifyRunner(
             __DIR__.'/fixtures',
             __DIR__.'/fixtures/var/minify',
             __DIR__.'/fixtures/assets',
             ['js', 'css'],
             [__DIR__.DIRECTORY_SEPARATOR.'fixtures'.DIRECTORY_SEPARATOR.'assets/vendor/**'],
         );
-        $process = $builder->run(watch: false);
+        $process = $runner->run(watch: false);
         $process->wait();
 
         $this->assertTrue($process->isSuccessful());
