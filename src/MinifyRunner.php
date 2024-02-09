@@ -15,6 +15,8 @@ use function file_get_contents;
 use function in_array;
 use function is_dir;
 use function is_file;
+use function mb_strlen;
+use function mb_substr;
 use function preg_match;
 use function realpath;
 use function sprintf;
