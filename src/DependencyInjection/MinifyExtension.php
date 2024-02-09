@@ -12,8 +12,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 use function assert;
 
-use const DIRECTORY_SEPARATOR;
-
 class MinifyExtension extends Extension implements ConfigurationInterface
 {
     public function load(array $configs, ContainerBuilder $container): void
@@ -54,8 +52,8 @@ class MinifyExtension extends Extension implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('assets_directory')
-                    ->info('Assets directory to minify')
-                    ->defaultValue('%kernel.project_dir%/assets')
+                    ->info('Assets directory to minify - relative to project root dir')
+                    ->defaultValue('assets')
                 ->end()
                 ->arrayNode('extensions')
                     ->info('Extensions to minify')
@@ -65,11 +63,11 @@ class MinifyExtension extends Extension implements ConfigurationInterface
                     ->defaultValue(['js', 'css'])
                 ->end()
                 ->arrayNode('excluded_paths')
-                    ->info('Paths to exclude from minification')
+                    ->info('Paths to exclude from minification - relative to project root dir')
                     ->scalarProtoType()
-                        ->example('%kernel.project_dir%/assets/do-not-minify/**')
+                        ->example('assets/do-not-minify/**')
                         ->end()
-                    ->defaultValue(['%kernel.project_dir%'.DIRECTORY_SEPARATOR.'assets/vendor/**'])
+                    ->defaultValue(['assets/vendor/**'])
                 ->end()
                 ->booleanNode('convert_comments')
                     ->info('Convert important comments (/*! ... */) back to normal')

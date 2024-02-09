@@ -9,8 +9,6 @@ use Wgg\MinifyBundle\MinifyRunner;
 use function file_exists;
 use function file_get_contents;
 
-use const DIRECTORY_SEPARATOR;
-
 class MinifyRunnerTest extends TestCase
 {
     protected function setUp(): void
@@ -35,9 +33,9 @@ class MinifyRunnerTest extends TestCase
         $runner = new MinifyRunner(
             __DIR__.'/fixtures',
             __DIR__.'/fixtures/var/minify',
-            __DIR__.'/fixtures/assets',
+            'assets',
             ['js', 'css'],
-            [__DIR__.DIRECTORY_SEPARATOR.'fixtures'.DIRECTORY_SEPARATOR.'assets/vendor/**'],
+            ['assets/vendor/**'],
         );
         $process = $runner->run(watch: false);
         $process->wait();

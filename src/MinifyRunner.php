@@ -22,7 +22,6 @@ use function str_starts_with;
 
 class MinifyRunner
 {
-    private readonly string $assetsDir;
     private ?SymfonyStyle $output = null;
 
     /**
@@ -32,20 +31,14 @@ class MinifyRunner
     public function __construct(
         private readonly string $projectRootDir,
         private readonly string $minifyVarDir,
-        string $assetsDir,
+        private readonly string $assetsDir,
         private readonly array $extensions,
         private readonly array $excludedPaths,
         private readonly ?string $binaryPath = null,
         private readonly ?string $binaryVersion = null
     ) {
-        if (is_dir($assetsDir)) {
-            $this->assetsDir = $assetsDir;
-        } else {
-            $this->assetsDir = $this->projectRootDir.'/'.$assetsDir;
-
-            if (!is_dir($this->assetsDir)) {
-                throw new InvalidArgumentException(sprintf('The input directory "%s" does not exist.', $assetsDir));
-            }
+        if (!is_dir($this->projectRootDir.'/'.$this->assetsDir)) {
+            throw new InvalidArgumentException(sprintf('The input directory "%s" does not exist.', $this->projectRootDir.'/'.$this->assetsDir));
         }
     }
 
@@ -107,16 +100,16 @@ class MinifyRunner
             '--output='.$this->minifyVarDir,
         ];
 
+        if ($watch) {
+            $arguments[] = '--watch';
+        }
+
         foreach ($this->excludedPaths as $exclude) {
             $arguments[] = '--exclude='.$exclude;
         }
 
         foreach ($this->extensions as $extension) {
             $arguments[] = '--match=**.'.$extension;
-        }
-
-        if ($watch) {
-            $arguments[] = '--watch';
         }
 
         return $arguments;
