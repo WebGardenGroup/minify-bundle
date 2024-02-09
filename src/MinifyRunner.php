@@ -73,7 +73,7 @@ class MinifyRunner
     public function supportsAssets(MappedAsset $asset): bool
     {
         return !$asset->isVendor
-            && str_starts_with(realpath($asset->sourcePath), realpath($this->assetsDir))
+            && str_starts_with(realpath($asset->sourcePath), realpath($this->projectRootDir.'/'.$this->assetsDir))
             && in_array($asset->publicExtension, $this->extensions)
             && !$this->isExcluded($asset->sourcePath);
     }
