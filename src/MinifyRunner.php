@@ -80,6 +80,8 @@ class MinifyRunner
 
     private function isExcluded(string $path): bool
     {
+        // Path is absolute - remove $projectDir from the beginning.
+        $path = mb_substr($path, mb_strlen($this->projectRootDir) + 1);
         foreach ($this->excludedPaths as $glob) {
             if (preg_match(Glob::toRegex($glob, true, false), $path)) {
                 return true;
