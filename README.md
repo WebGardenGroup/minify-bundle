@@ -19,4 +19,4 @@ Is this package useful! We're *thrilled* 😍!
 
 ## License
 
-MIT License (MIT): see the [License File](LICENSE.md) for more details.
+MIT License (MIT): see the [License File](LICENSE) for more details.
