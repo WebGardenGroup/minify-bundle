@@ -69,7 +69,13 @@ class MinifyRunner
             throw new RuntimeException(sprintf('Minified file (%s) does not exist: run "php bin/console minify:run" to generate it', $filePath));
         }
 
-        return file_get_contents($filePath) ?: throw new RuntimeException('Minified file is not readable / accessible');
+        $contents = file_get_contents($filePath);
+
+        if (false === $contents) {
+            throw new RuntimeException('Minified file is not readable / accessible');
+        }
+
+        return $contents;
     }
 
     public function supportsAssets(MappedAsset $asset): bool
